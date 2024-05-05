@@ -161,16 +161,16 @@ io.on("connection", (socket) => {
     if (connectedUsers.length >= 2) {
       console.log("2 users found");
       const roomId = uuidv4();
-      const randomIndex1 = currentId;
+      // const randomIndex1 = currentId;
       let randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
 
       // Ensure the second random index is different from the first
-      while (randomIndex2 === randomIndex1) {
-        randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
-      }
+      // while (randomIndex2 === randomIndex1) {
+      //   randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
+      // }
 
-      // Get the socket ids of the selected users
-      const user1SocketId = connectedUsers[randomIndex1];
+      // // Get the socket ids of the selected users
+      const user1SocketId = userConnections[currentId];
       const user2SocketId = connectedUsers[randomIndex2];
 
 
