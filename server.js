@@ -161,7 +161,7 @@ io.on("connection", (socket) => {
     if (connectedUsers.length >= 2) {
       console.log("2 users found");
       const roomId = uuidv4();
-      const randomIndex1 = Math.floor(Math.random() * connectedUsers.length);
+      const randomIndex1 = currentId;
       let randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
 
       // Ensure the second random index is different from the first
