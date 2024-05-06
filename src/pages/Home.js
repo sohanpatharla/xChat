@@ -9,6 +9,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [roomId, setRoomId] = useState("");
+  const [interests, setInterests] = useState("");
   const [username, setUsername] = useState("");
   const [socket, setSocket] = useState(null); // Define socket state
   useEffect(() => {
@@ -100,10 +101,10 @@ export default function Home() {
               <div className="w-full">
                 <input
                   type="text"
-                  onChange={(e) => setRoomId(e.target.value)}
+                  onChange={(e) => setInterests(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="ROOM ID"
-                  value={""}
+                  placeholder="Enter Interests"
+                  value={interests}
                   onKeyUp={handleInputEnter}
                   required
                 />
@@ -113,7 +114,7 @@ export default function Home() {
                   type="text"
                   onChange={(e) => setUsername(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="USERNAME"
+                  placeholder="ENTER USERNAME"
                   value={username}
                   onKeyUp={handleInputEnter}
                   required
@@ -121,33 +122,33 @@ export default function Home() {
               </div>
               <div className="w-full">
                 <button
-                  onClick={joinRoom}
+                  onClick={matchUsers}
                   className=" w-full border text-4xl font-halloween border-white text-xl hover:bg-gray-600 text-white px-10 py-3 mt-8"
                 >
-                  Join
+                  Start Chat
                 </button>
               </div>
             </form>
             <div className="text-white font-halloween text-2xl text-center mt-4">
               <p>
-                Don't have a room ID ?{" "}
+                Don't want to reveal your real name?{" "}
                 <span
                   onClick={createNewRoom}
                   className="text-red-300 font-bold cursor-pointer"
                 >
-                  create
+                  create random username
                 </span>
               </p>
             </div>
 
-            <div className="text-white font-halloween text-2xl text-center mt-4">
+            {/* <div className="text-white font-halloween text-2xl text-center mt-4">
               <button
                 onClick={matchUsers}
                 className="text-red-300 font-bold cursor-pointer"
               >
                 Match Users
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
