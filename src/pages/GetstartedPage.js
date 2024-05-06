@@ -27,7 +27,7 @@ export default function GetstartedPage() {
           {/* <p className="text-3xl font-halloween text-white">
             A collaborative code-editor
           </p> */}
-          <Link to="/auth">
+          <Link to="/room">
             <button className="border border-white font-bold text-xl hover:bg-gray-800 text-white px-8 py-3 mt-8">
               Get started
             </button>
