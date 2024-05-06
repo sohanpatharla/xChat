@@ -13,7 +13,7 @@ export default function GetstartedPage() {
         <ParticlesComponent id='particles'/>
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <p className="text-8xl font-bold font-halloween text-white">
-            SYNTEXITY
+            0xConnect
           </p>
           <div className="text-white font-halloween text-2xl">
           <Typewriter

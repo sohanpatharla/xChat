@@ -92,7 +92,7 @@ export default function Home() {
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <div className="mb-4">
               <p className="text-6xl text-center font-bold font-halloween text-white">
-                SYNTEXITY
+                0xConnect
               </p>
           </div>
           <div className="bg-gray-800 px-5 py-10 rounded-xl w-[25rem]">

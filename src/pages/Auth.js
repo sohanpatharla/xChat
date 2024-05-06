@@ -16,7 +16,7 @@ export default function Auth() {
         <div className="mb-4">
           <Link to="/">
             <p className="text-6xl text-center font-bold font-halloween text-white">
-              SYNTEXITY
+              0xConnect
             </p>
           </Link>
         </div>

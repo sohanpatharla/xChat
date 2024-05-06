@@ -1,10 +1,10 @@
-# syntexity
+# 0xConnect
 
-Introducing Syntexity: your ultimate destination for seamless collaborative coding experiences. With Syntexity, coding becomes a breeze as it offers robust code compilation capabilities alongside an advanced editor locking system to prevent conflicts and ensure smooth teamwork. Dive deep into project insights with our sophisticated contribution analysis tools, facilitating effective collaboration and project management. Engage in real-time collaboration with colleagues through our integrated chat facility, fostering communication and teamwork within the platform. Supporting multiple programming languages and offering a variety of editor themes, Syntexity caters to diverse project needs while providing a personalized coding environment. Experience the power of collaboration with Syntexity, where coding becomes efficient and enjoyable.
+Introducing 0xConnect: your ultimate destination for seamless collaborative coding experiences. With 0xConnect, coding becomes a breeze as it offers robust code compilation capabilities alongside an advanced editor locking system to prevent conflicts and ensure smooth teamwork. Dive deep into project insights with our sophisticated contribution analysis tools, facilitating effective collaboration and project management. Engage in real-time collaboration with colleagues through our integrated chat facility, fostering communication and teamwork within the platform. Supporting multiple programming languages and offering a variety of editor themes, 0xConnect caters to diverse project needs while providing a personalized coding environment. Experience the power of collaboration with 0xConnect, where coding becomes efficient and enjoyable.
 
 <br/>
 
-**Link to the web app:** [https://syntexity.vercel.app](https://syntexity.vercel.app) <br/>
+**Link to the web app:** [https://0xConnect.vercel.app](https://0xConnect.vercel.app) <br/>
 
 <br/>
 

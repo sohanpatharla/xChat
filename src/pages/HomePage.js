@@ -9,7 +9,7 @@ export default function HomePage() {
         <Stars />
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <p className="text-8xl font-bold font-halloween text-white">
-            SYNTEXITY
+            0xConnect
           </p>
           <p className="text-3xl font-halloween text-white">
             A collaborative code-editor
