@@ -12,13 +12,17 @@ export default function GetstartedPage() {
       <div className="w-[100vw] h-[100vh]">
         <ParticlesComponent id='particles'/>
         <div className="flex flex-col items-center h-[90vh] justify-center">
-          <p className="text-8xl font-bold font-halloween text-white">
+          {/* <p className="text-8xl font-bold font-halloween text-white">
             0XCONNECT
-          </p>
+          </p> */}
           <div className="text-white font-halloween text-2xl">
-          <p className="text-3s text-white">
+          {/* <p className="text-3s text-white">
             
 "For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance."
+          </p> */}
+          <p className="text-3s text-white">
+            
+          "The sunset is beautiful isn't it?"
           </p>
           {/* <p className="text-0s">
             
@@ -44,11 +48,11 @@ export default function GetstartedPage() {
           {/* <p className="text-3xl font-halloween text-white">
             A collaborative code-editor
           </p> */}
-          <Link to="/room">
+          {/* <Link to="/room">
             <button className="border border-white font-bold text-xl hover:bg-gray-800 text-white px-8 py-3 mt-8">
               Get started
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>
