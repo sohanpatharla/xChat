@@ -12,7 +12,7 @@ export default function HomePage() {
             0xConnect
           </p>
           <p className="text-3xl font-halloween text-white">
-            A collaborative code-editor
+          "For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance."
           </p>
           <Link to="/room">
             <button className="border border-white font-bold text-xl hover:bg-gray-800 text-white px-8 py-3 mt-8">
