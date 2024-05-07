@@ -16,14 +16,22 @@ export default function GetstartedPage() {
             0XCONNECT
           </p>
           <div className="text-white font-halloween text-2xl">
-          <Typewriter
+          <p className="text-3s text-white">
+            
+"For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance."
+          </p>
+          {/* <p className="text-0s">
+            
+          "Bringing together hearts that perceive distance nearby, and bridging the chasm for those afar, behold the epic saga of connection on our platform, akin to the dance of destiny itself."
+          </p> */}
+          {/* <Typewriter
           options = {{
             strings:"For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance.",
             autoStart: true,
             loop:false,
             typeSpeed:100
           }}
-           />
+           /> */}
            {/* <Typewriter
           options = {{
             strings:"Bringing together hearts that perceive distance nearby, and bridging the chasm for those afar, behold the epic saga of connection on our platform, akin to the dance of destiny itself.",
