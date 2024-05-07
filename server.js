@@ -170,7 +170,7 @@ io.on("connection", (socket) => {
       // }
 
       // // Get the socket ids of the selected users
-      const user1SocketId =currentId;
+      const user1SocketId = currentId;
       const user2SocketId = connectedUsers[randomIndex2];
 
 

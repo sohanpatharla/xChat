@@ -5,16 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Stars from "../components/Stars/Stars";
 import { io } from "socket.io-client";
 import ACTIONS from "../Actions";
+import rug from 'random-username-generator';
 export default function Home() {
   const navigate = useNavigate();
 
   const [roomId, setRoomId] = useState("");
-  const [interests, setInterests] = useState("");
   const [username, setUsername] = useState("");
   const [socket, setSocket] = useState(null); // Define socket state
   useEffect(() => {
     // Connect to the Socket.IO server
-    const socket = io("http://localhost:5050");
+    const socket = io(process.env.REACT_APP_BACKEND_URL);
     setSocket(socket); // Save the socket instance to state
 
     // Listen for the "navigate-to-chat" event from the server
@@ -36,8 +36,9 @@ export default function Home() {
   const createNewRoom = (e) => {
     e.preventDefault();
     const id = uuidV4();
-    setRoomId(id);
-    toast.success("Created a new room");
+    const name=rug.generate();
+    setUsername(name);
+    toast.success("Generated random username");
   };
 
   const joinRoom = () => {
@@ -93,7 +94,7 @@ export default function Home() {
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <div className="mb-4">
               <p className="text-6xl text-center font-bold font-halloween text-white">
-                0xConnect
+                0XCONNECT
               </p>
           </div>
           <div className="bg-gray-800 px-5 py-10 rounded-xl w-[25rem]">
@@ -101,10 +102,10 @@ export default function Home() {
               <div className="w-full">
                 <input
                   type="text"
-                  onChange={(e) => setInterests(e.target.value)}
+                  onChange={(e) => setRoomId(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="Enter Interests"
-                  value={interests}
+                  placeholder="ROOM ID"
+                  value={""}
                   onKeyUp={handleInputEnter}
                   required
                 />
@@ -114,7 +115,7 @@ export default function Home() {
                   type="text"
                   onChange={(e) => setUsername(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="ENTER USERNAME"
+                  placeholder="USERNAME"
                   value={username}
                   onKeyUp={handleInputEnter}
                   required
@@ -131,24 +132,15 @@ export default function Home() {
             </form>
             <div className="text-white font-halloween text-2xl text-center mt-4">
               <p>
-                Don't want to reveal your real name?{" "}
+                Don't want to reveal you real name ?{" "}
                 <span
                   onClick={createNewRoom}
                   className="text-red-300 font-bold cursor-pointer"
                 >
-                  create random username
+                  Generate a random username
                 </span>
               </p>
             </div>
-
-            {/* <div className="text-white font-halloween text-2xl text-center mt-4">
-              <button
-                onClick={matchUsers}
-                className="text-red-300 font-bold cursor-pointer"
-              >
-                Match Users
-              </button>
-            </div> */}
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ export default function GetstartedPage() {
         <ParticlesComponent id='particles'/>
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <p className="text-8xl font-bold font-halloween text-white">
-            0xConnect
+            0XCONNECT
           </p>
           <div className="text-white font-halloween text-2xl">
           <Typewriter
@@ -27,7 +27,7 @@ export default function GetstartedPage() {
           {/* <p className="text-3xl font-halloween text-white">
             A collaborative code-editor
           </p> */}
-          <Link to="/room">
+          <Link to="/auth">
             <button className="border border-white font-bold text-xl hover:bg-gray-800 text-white px-8 py-3 mt-8">
               Get started
             </button>
