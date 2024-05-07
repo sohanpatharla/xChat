@@ -11,6 +11,8 @@ export default function Home() {
 
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
+  const [interest, setInterests] = useState("");
+  
   const [socket, setSocket] = useState(null); // Define socket state
   useEffect(() => {
     // Connect to the Socket.IO server
@@ -42,7 +44,7 @@ export default function Home() {
   };
 
   const joinRoom = () => {
-    if (!roomId || !username) {
+    if (!username) {
       toast.error("ROOM ID & username is required");
       return;
     }
@@ -104,7 +106,7 @@ export default function Home() {
                   type="text"
                   onChange={(e) => setRoomId(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="ROOM ID"
+                  placeholder="Enter Interests"
                   value={""}
                   onKeyUp={handleInputEnter}
                   required
@@ -113,9 +115,10 @@ export default function Home() {
               <div className="mt-4 w-full">
                 <input
                   type="text"
+                  // ssjsf
                   onChange={(e) => setUsername(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="USERNAME"
+                  placeholder="Enter Display Name"
                   value={username}
                   onKeyUp={handleInputEnter}
                   required

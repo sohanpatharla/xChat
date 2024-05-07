@@ -18,16 +18,25 @@ export default function GetstartedPage() {
           <div className="text-white font-halloween text-2xl">
           <Typewriter
           options = {{
-            strings:"A collaborative code editor",
+            strings:"For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance.",
             autoStart: true,
-            loop:true
+            loop:false,
+            typeSpeed:100
           }}
            />
+           {/* <Typewriter
+          options = {{
+            strings:"Bringing together hearts that perceive distance nearby, and bridging the chasm for those afar, behold the epic saga of connection on our platform, akin to the dance of destiny itself.",
+            autoStart: true,
+            loop:true,
+            typeSpeed: 50, 
+          }}
+           /> */}
            </div>
           {/* <p className="text-3xl font-halloween text-white">
             A collaborative code-editor
           </p> */}
-          <Link to="/auth">
+          <Link to="/room">
             <button className="border border-white font-bold text-xl hover:bg-gray-800 text-white px-8 py-3 mt-8">
               Get started
             </button>
