@@ -82,3 +82,7 @@ This project is licensed under the [MIT License](link-to-license). See the [LICE
 - Seamless Navigation to Chat: Integrated functionality to navigate matched users to a chat room upon pairing.
 - Added Anonymous Login: Users can connect anonymously without the need for registration or login.
 - Added Random Username Generation: Random usernames can be generated for users who prefer not to reveal their real names.
+
+  ## Note:
+Please note that a minimum of 2 users must be online globally at that at that moment to get connected and initiate a chat session.
+
