@@ -7,7 +7,7 @@ import { RecoilRoot } from "recoil";
 import Auth from "./pages/Auth";
 import GetstartedPage from "./pages/GetstartedPage";
 import ChatArea from "./components/ChatArea";
-
+import ErrorPage from "./pages/ErrorPage";
 function App() {
   console.log(process.env.REACT_APP_BACKEND_URL);
   return (
@@ -30,6 +30,7 @@ function App() {
             <Route path="/" element={<GetstartedPage />}></Route>
             <Route path="/room" element={<Home />}></Route>
             <Route path="/auth" element={<Auth />}></Route>
+            <Route path="/error" element={<ErrorPage />}></Route>
             <Route path="/chat/:roomId" element={<EditorPage />}></Route>
           </Routes>
         </RecoilRoot>
