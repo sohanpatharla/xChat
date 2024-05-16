@@ -158,7 +158,7 @@ io.on("connection", (socket) => {
     );
 
     // If there are at least two connected users, select two random users
-    if (connectedUsers.length > 1) {
+    if (connectedUsers.length >=1) {
       console.log("2 users found");
       const roomId = uuidv4();
       // const randomIndex1 = currentId;
