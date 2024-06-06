@@ -104,10 +104,10 @@ export default function Home() {
               <div className="w-full">
                 <input
                   type="text"
-                  onChange={(e) => setRoomId(e.target.value)}
+                  onChange={(e) => setInterests(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
                   placeholder="Enter Interests"
-                  value={""}
+                  value={interest}
                   onKeyUp={handleInputEnter}
                   required
                 />
@@ -124,7 +124,9 @@ export default function Home() {
                   required
                 />
               </div>
-              <div className="w-full">
+              
+            </form>
+            <div className="w-full">
                 <button
                   onClick={matchUsers}
                   className=" w-full border text-4xl font-halloween border-white text-xl hover:bg-gray-600 text-white px-10 py-3 mt-8"
@@ -132,7 +134,6 @@ export default function Home() {
                   Start Chat
                 </button>
               </div>
-            </form>
             <div className="text-white font-halloween text-2xl text-center mt-4">
               <p>
                 Don't want to reveal you real name ?{" "}
