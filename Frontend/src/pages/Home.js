@@ -74,7 +74,8 @@ export default function Home() {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center h-full text-white">
-            <p className="text-4xl font-halloween">Matching you with another user...</p>
+            <p className="text-4xl font-halloween animate-pulse">Searching for your cosmic connection...</p>
+            <p className="text-2xl mt-4 font-halloween">The stars are aligning, just for you.</p>
           </div>
         ) : (
           <div className="flex flex-col items-center h-[90vh] justify-center">
