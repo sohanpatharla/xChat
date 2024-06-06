@@ -128,7 +128,6 @@ const ChatMessage = mongoose.model("ChatMessage", {
 
 const userSocketMap = {};
 
-
 function getAllConnectedClients(roomId) {
   return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
     (socketId) => {
@@ -141,49 +140,58 @@ function getAllConnectedClients(roomId) {
 }
 const userConnections = {};
 
+function findMostSimilarInterests(currentUser, connectedUsers) {
+  let bestMatch = null;
+  let maxCommonInterests = 0;
+
+  connectedUsers.forEach((user) => {
+    const commonInterests = currentUser.interests.filter((interest) =>
+      user.interests.includes(interest)
+    );
+
+    if (commonInterests.length > maxCommonInterests) {
+      bestMatch = user;
+      maxCommonInterests = commonInterests.length;
+    }
+  });
+
+  return bestMatch ? [currentUser, bestMatch] : null;
+}
 
 io.on("connection", (socket) => {
   console.log("socket connected", socket.id);
-  // socket.on("keep-alive", () => {
-  //   console.log("Received keep-alive message from client:", socket.id);
-  // });
-  socket.on(ACTIONS.MATCH_USERS, ({username}) => {
-    // Store the user's socket id in the userConnections map
-    const currentId=socket.id;
-    userConnections[currentId] = username;
 
-    // Get an array of all connected socket ids except the current user
-    const connectedUsers = Object.keys(userConnections).filter(
-      (id) => id !== socket.id
-    );
+  socket.on(ACTIONS.MATCH_USERS, ({ username, interests }) => {
+    const currentId = socket.id;
+    userConnections[currentId] = { username, interests, socketId: currentId };
 
-    // If there are at least two connected users, select two random users
-    if (connectedUsers.length >=1) {
-      console.log("2 users found");
-      const roomId = uuidv4();
-      // const randomIndex1 = currentId;
-      let randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
+    // Delay the matchmaking process by 5 seconds
+    setTimeout(() => {
+      const connectedUsers = Object.entries(userConnections)
+        .filter(([id, user]) => id !== currentId && user.interests.length > 0)
+        .map(([id, user]) => user);
 
-      // Ensure the second random index is different from the first
-      // while (randomIndex2 === randomIndex1) {
-      //   randomIndex2 = Math.floor(Math.random() * connectedUsers.length);
-      // }
+      if (connectedUsers.length >= 1) {
+        console.log("At least one user found");
 
-      // // Get the socket ids of the selected users
-      const user1SocketId = currentId;
-      const user2SocketId = connectedUsers[randomIndex2];
+        const matchedUsers = findMostSimilarInterests(userConnections[currentId], connectedUsers);
 
+        if (matchedUsers) {
+          const [user1, user2] = matchedUsers;
+          const roomId = uuidv4();
+          
+          io.to(user1.socketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
+          io.to(user2.socketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
+          delete userConnections[user1.socketId];
+          delete userConnections[user2.socketId];
+        } else {
+          console.log("No matched users found");
+        }
+      } else {
+        console.log("No other users found");
+      }
+    }, 5000); // 5-second delay
 
-      // Emit event to navigate users to the chat room
-      io.to(user1SocketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
-      io.to(user2SocketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
-      delete userConnections[user1SocketId];
-      delete userConnections[user2SocketId];
-
-    }
-    else{
-      console.log("No Other Users Found");
-    }
   });
 
   socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
@@ -209,35 +217,6 @@ io.on("connection", (socket) => {
     });
   });
 
-  // socket.on(ACTIONS.CODE_CHANGE, ({ roomId }) => {
-//     const senderUsername2 = userSocketMap[socket.id];
-//     if (!userChanges[senderUsername2]) {
-//       userChanges[senderUsername2] = 0;
-//     }
-//     userChanges[senderUsername2]++;
-//     // console.log(userChanges);
-//     io.in(roomId).emit(ACTIONS.USER_CHANGES, userChanges);
-//   });
-
-  // socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
-  //   socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
-  // });
-
-  // socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
-  //   io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
-  // });
-
-  // socket.on(ACTIONS.TOGGLE_EDITOR_LOCK, ({ roomId, editorLocked }) => {
-  //   // Emit the new TOGGLE_EDITOR_LOCK action to other users in the room
-  //   socket.to(roomId).emit(ACTIONS.TOGGLE_EDITOR_LOCK, { editorLocked });
-  // });
-
-  // Handle UPLOAD_FILE event on the server side
-  // socket.on("UPLOAD_FILE", ({ roomId, fileContent }) => {
-  //   // Broadcast the file content to all participants in the room
-  //   io.to(roomId).emit("SYNC_CODE", { code: fileContent });
-  // });
-
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
     rooms.forEach((roomId) => {
@@ -247,7 +226,6 @@ io.on("connection", (socket) => {
       });
     });
     delete userSocketMap[socket.id];
-    //socket.leave();
   });
 });
 
@@ -257,18 +235,5 @@ server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 const router = express.Router();
 router.route("/signup").post(createuser);
 router.route("/login").post(loginUser);
-// router.route("/compile").post(CompileCode);
-
-// app.post("/execute", async (req, res) => {
-//   try {
-//     const response = await axios.post(
-//       "https://api.jdoodle.com/v1/execute",
-//       req.body
-//     );
-//     res.json(response.data);
-//   } catch (error) {
-//     res.status(error.response.status).json(error.response.data);
-//   }
-// });
 
 app.use("/api", router);

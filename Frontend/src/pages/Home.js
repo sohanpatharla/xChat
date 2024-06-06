@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidV4 } from "uuid";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,13 +6,13 @@ import Stars from "../components/Stars/Stars";
 import { io } from "socket.io-client";
 import ACTIONS from "../Actions";
 import rug from 'random-username-generator';
+
 export default function Home() {
   const navigate = useNavigate();
-
-  const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
-  const [interest, setInterests] = useState("");
-  
+  const [interests, setInterests] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [socket, setSocket] = useState(null); // Define socket state
   useEffect(() => {
     // Connect to the Socket.IO server
@@ -21,6 +21,7 @@ export default function Home() {
 
     // Listen for the "navigate-to-chat" event from the server
     socket.on(ACTIONS.NAVIGATE_CHAT, ({ roomId }) => {
+      setLoading(false);
       // Redirect users to the chat room with the provided roomId
       navigate(`/chat/${roomId}`, {
         state: {
@@ -35,10 +36,11 @@ export default function Home() {
       socket.disconnect();
     };
   }, [navigate, username]);
+
   const createNewRoom = (e) => {
     e.preventDefault();
     const id = uuidV4();
-    const name=rug.generate();
+    const name = rug.generate();
     setUsername(name);
     toast.success("Generated random username");
   };
@@ -56,31 +58,17 @@ export default function Home() {
     //   },
     // });
   };
+
   const matchUsers = () => {
     if (!username) {
       toast.error("Please enter a username");
       return;
     }
-    
-    socket.emit(ACTIONS.MATCH_USERS, { username });
+    setLoading(true);
+
+    // Emit the username and interests to the server socket
+    socket.emit(ACTIONS.MATCH_USERS, { username, interests });
   };
-  // useEffect(() => {
-  //   // Listen for the "navigate-to-chat" event from the server
-  //   socket.on("navigate-to-chat", ({ roomId }) => {
-  //     // Redirect users to the chat room with the provided roomId
-  //     navigate(`/chat/${roomId}`, {
-  //       state: {
-  //         username,
-  //       },
-  //     });
-  //   });
-  
-  //   // Clean up event listener when the component unmounts
-  //   return () => {
-  //     socket.off("navigate-to-chat");
-  //   };
-  // }, []); // Empty dependency array to run only once on component mount
-  
 
   const handleInputEnter = (e) => {
     if (e.code === "Enter") {
@@ -104,10 +92,10 @@ export default function Home() {
               <div className="w-full">
                 <input
                   type="text"
-                  onChange={(e) => setInterests(e.target.value)}
+                  onChange={(e) => setInterests(e.target.value.split(","))}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
-                  placeholder="Enter Interests"
-                  value={interest}
+                  placeholder="Enter Interests (comma-separated)"
+                  value={interests.join(",")}
                   onKeyUp={handleInputEnter}
                   required
                 />
@@ -115,7 +103,6 @@ export default function Home() {
               <div className="mt-4 w-full">
                 <input
                   type="text"
-                  // ssjsf
                   onChange={(e) => setUsername(e.target.value)}
                   className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
                   placeholder="Enter Display Name"
@@ -124,7 +111,6 @@ export default function Home() {
                   required
                 />
               </div>
-              
             </form>
             <div className="w-full">
                 <button
