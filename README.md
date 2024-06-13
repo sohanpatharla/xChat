@@ -40,28 +40,24 @@ xChat is a real-time chat application designed to provide users with a seamless 
 ## Installation
 
 1. Clone the repository:
-git clone https://github.com/sohanpatharla/0xConnect
-
-css
-Copy code
+   ```
+   git clone https://github.com/sohanpatharla/0xConnect
+   ```
 2. Navigate to the project directory:
-cd xchat
-
-markdown
-Copy code
+   ```
+   cd 0xchat
+   ```
 3. Install dependencies:
-npm install
-
-markdown
-Copy code
+   ```
+   npm install
+   ```
 
 ## Usage
 
 1. Start the server:
-npm start
-
-markdown
-Copy code
+   ```
+   npm start
+   ```
 2. Open your web browser and go to [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## Contributing
@@ -87,7 +83,6 @@ This project is licensed under the [MIT License](link-to-license). See the [LICE
 - Seamless Navigation to Chat: Integrated functionality to navigate matched users to a chat room upon pairing.
 - Added Anonymous Login: Users can connect anonymously without the need for registration or login.
 - Added Random Username Generation: Random usernames can be generated for users who prefer not to reveal their real names.
-- Added Interest-Based User Matching: Users are matched based on shared interests, enhancing the quality of conversations.
 
 ## Note
 
