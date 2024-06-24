@@ -25,7 +25,6 @@ const EditorPage = () => {
       socketRef.current = await initSocket();
       socketRef.current.on("connect_error", (err) => handleErrors(err));
       socketRef.current.on("connect_failed", (err) => handleErrors(err));
-
       function handleErrors(e) {
         console.log("socket error", e);
         toast.error("Socket connection failed, try again later.");
@@ -40,6 +39,7 @@ const EditorPage = () => {
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
+          console.log(location.state?.interests);
           if (username !== location.state?.username) {
             toast.success(`${username} joined the room.`);
             console.log(`${username} joined`);
@@ -70,7 +70,13 @@ const EditorPage = () => {
   function leaveRoom() {
     reactNavigator("/");
   }
-
+  function nextChat() {
+    const { username, interests } = location.state;
+    console.log(`printing`);
+    console.log(username);
+    console.log(interests);
+    
+  }
   if (!location.state) {
     return <Navigate to="/" />;
   }
@@ -89,6 +95,15 @@ const EditorPage = () => {
             className="text-red-400 border px-8 py-1 font-halloween"
           >
             Leave
+          </button>
+        </div>
+        <div>
+          <button
+            id="next-chat-button"
+            onClick={nextChat}
+            className="text-blue-400 border px-8 py-1 font-halloween"
+          >
+            Next
           </button>
         </div>
       <div className="editorWrap">

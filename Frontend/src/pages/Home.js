@@ -14,8 +14,8 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [interest, setInterest] = useState("");
   const [loading, setLoading] = useState(false);
-  
   const [socket, setSocket] = useState(null);
+  const [interests,setInterests]=useState([]);
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_BACKEND_URL);
@@ -26,6 +26,7 @@ export default function Home() {
       navigate(`/chat/${roomId}`, {
         state: {
           username,
+          interests,
         },
       });
     });
@@ -34,7 +35,7 @@ export default function Home() {
       socket.off("navigate-to-chat");
       socket.disconnect();
     };
-  }, [navigate, username]);
+  }, [navigate, username,interests]);
 
   const createNewRoom = (e) => {
     e.preventDefault();
@@ -56,8 +57,8 @@ export default function Home() {
       toast.error("Please enter a username and interests");
       return;
     }
-
     setLoading(true);
+    console.log(interests);
     socket.emit(ACTIONS.MATCH_USERS, { username, interests: interest.split(",") });
   };
 
@@ -89,7 +90,8 @@ export default function Home() {
                 <div className="w-full">
                   <input
                     type="text"
-                    onChange={(e) => setInterest(e.target.value)}
+                    onChange={(e) => {setInterest(e.target.value)
+                      setInterests(interest.split(","))}}
                     className="rounded-md text-2xl font-halloween outline-none p-2 w-full"
                     placeholder="Enter Interests (comma separated)"
                     value={interest}

@@ -162,6 +162,7 @@ io.on("connection", (socket) => {
   console.log("socket connected", socket.id);
 
   socket.on(ACTIONS.MATCH_USERS, ({ username, interests }) => {
+    console.log(`interests are ${interests}`);
     const currentId = socket.id;
     userConnections[currentId] = { username, interests, socketId: currentId };
 
@@ -177,6 +178,7 @@ io.on("connection", (socket) => {
         const matchedUsers = findMostSimilarInterests(userConnections[currentId], connectedUsers);
 
         if (matchedUsers) {
+          console.log( `Matching users`);
           const [user1, user2] = matchedUsers;
           const roomId = uuidv4();
           
@@ -192,6 +194,39 @@ io.on("connection", (socket) => {
       }
     }, 5000); // 5-second delay
 
+  });
+  socket.on(ACTIONS.NEXT_CHAT, ({ username, interests }) => {
+    console.log(`Next chat requested for user: ${username}, interests: ${interests}`);
+    // Re-use matchmaking logic here
+    const currentId = socket.id;
+    userConnections[currentId] = { username, interests, socketId: currentId };
+
+    setTimeout(() => {
+      const connectedUsers = Object.entries(userConnections)
+        .filter(([id, user]) => id !== currentId && user.interests.length > 0)
+        .map(([id, user]) => user);
+
+      if (connectedUsers.length >= 1) {
+        console.log("At least one user found");
+
+        const matchedUsers = findMostSimilarInterests(userConnections[currentId], connectedUsers);
+
+        if (matchedUsers) {
+          console.log(`Matching users`);
+          const [user1, user2] = matchedUsers;
+          const roomId = uuidv4();
+          
+          io.to(user1.socketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
+          io.to(user2.socketId).emit(ACTIONS.NAVIGATE_CHAT, { roomId });
+          delete userConnections[user1.socketId];
+          delete userConnections[user2.socketId];
+        } else {
+          console.log("No matched users found");
+        }
+      } else {
+        console.log("No other users found");
+      }
+    }, 5000); // 5-second delay
   });
 
   socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
