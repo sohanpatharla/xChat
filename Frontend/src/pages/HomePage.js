@@ -9,7 +9,7 @@ export default function HomePage() {
         <Stars />
         <div className="flex flex-col items-center h-[90vh] justify-center">
           <p className="text-8xl font-bold font-halloween text-white">
-            0xConnect
+            xChat
           </p>
           <p className="text-3xl font-halloween text-white">
           "For hearts afar and near, we unite destinies. Welcome to our platform, where connections transcend distance."

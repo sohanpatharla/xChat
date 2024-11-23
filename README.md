@@ -1,6 +1,6 @@
-# 0xChat - Real-Time Chat Application
+# xChat - Real-Time Chat Application
 
-Welcome to 0xChat - your go-to platform for real-time conversations! 0xChat allows users to connect instantly and chat in real-time, akin to popular platforms like Omegle.
+Welcome to xChat - your go-to platform for real-time conversations! xChat allows users to connect instantly and chat in real-time, akin to popular platforms like Omegle.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ Welcome to 0xChat - your go-to platform for real-time conversations! 0xChat allo
 
 ## Introduction
 
-0xChat is a real-time chat application designed to provide users with a seamless and spontaneous chatting experience. Whether you're looking to meet new people, engage in casual conversations, or discuss specific topics, 0xChat has got you covered.
+xChat is a real-time chat application designed to provide users with a seamless and spontaneous chatting experience. Whether you're looking to meet new people, engage in casual conversations, or discuss specific topics, xChat has got you covered.
 
 ## Features
 
@@ -26,7 +26,8 @@ Welcome to 0xChat - your go-to platform for real-time conversations! 0xChat allo
 - **Private Messaging**: Send private messages to individual users.
 - **Anonymous Login**: Users can connect anonymously without the need for registration or login.
 - **Random Username Generation**: Random usernames can be generated for users who prefer not to reveal their real names.
-- **Responsive Design**: 0xChat is responsive and works well on desktop and mobile devices.
+- **Interest-Based User Matching**: Match users based on shared interests for more meaningful conversations.
+- **Responsive Design**: xChat is responsive and works well on desktop and mobile devices.
 
 ## Technologies Used
 
@@ -61,7 +62,7 @@ Welcome to 0xChat - your go-to platform for real-time conversations! 0xChat allo
 
 ## Contributing
 
-Contributions are welcome! To contribute to 0xChat, follow these steps:
+Contributions are welcome! To contribute to xChat, follow these steps:
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature/new-feature`).
 3. Make changes and commit them (`git commit -am 'Add new feature'`).
@@ -83,6 +84,6 @@ This project is licensed under the [MIT License](link-to-license). See the [LICE
 - Added Anonymous Login: Users can connect anonymously without the need for registration or login.
 - Added Random Username Generation: Random usernames can be generated for users who prefer not to reveal their real names.
 
-  ## Note:
-Please note that a minimum of 2 users must be online globally at that at that moment to get connected and initiate a chat session.
+## Note
 
+Please note that a minimum of 2 users must be online globally at that moment to get connected and initiate a chat session.
