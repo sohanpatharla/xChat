@@ -169,15 +169,21 @@ io.on("connection", (socket) => {
     console.log(`Matching for the username ${username} interests are ${interests}`);
     const currentId = socket.id;
     userConnections[currentId] = { username, interests, socketId: currentId };
+    console.log(`Begining the userConnections are ${JSON.stringify(userConnections)}`);
 
     // Delay the matchmaking process by 5 seconds
     setTimeout(() => {
+      console.log(`First the userConnections are ${JSON.stringify(userConnections)}`);
       const connectedUsers = Object.entries(userConnections)
         .filter(([id, user]) => id !== currentId && user.interests.length > 0)
         .map(([id, user]) => user);
 
       if (connectedUsers.length >= 1) {
         console.log("At least one user found");
+        console.log(`After the userConnections are ${JSON.stringify(userConnections)}`);
+        
+        console.log(`For the user ${userConnections[currentId]}`);
+        
 
         const matchedUsers = findMostSimilarInterests(userConnections[currentId], connectedUsers);
         ///console.log(matchedUsers);
