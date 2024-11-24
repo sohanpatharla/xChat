@@ -3,7 +3,8 @@ import React, { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import Client from "../components/Client";
 import ACTIONS from "../Actions";
-import { initSocket } from "../socket";
+//import { initSocket,disconnectSocket } from "../socket";
+import { socketService } from "../services/socketService";  
 import ChatArea from "../components/ChatArea";
 import Stars from "../components/Stars/Stars";
 import {
@@ -23,18 +24,48 @@ const EditorPage = () => {
 
   useEffect(() => {
     const init = async () => {
-      socketRef.current = await initSocket();
+       // Use existing socket if passed through navigation state
+    //    if (location.state?.socketInstance) {
+    //     socketRef.current = location.state.socketInstance;
+    // } else {
+    //     socketRef.current = await initSocket();
+    // }
+    socketRef.current = socketService.getSocket();
+
+      // socketRef.current = await initSocket();
+      // socketRef.current.on("connect_error", (err) => handleErrors(err));
+      // socketRef.current.on("connect_failed", (err) => handleErrors(err));
+      // function handleErrors(e) {
+      //   console.log("socket error", e);
+      //   toast.error("Socket connection failed, try again later.");
+      //   reactNavigator("/");
+      // }
+
+      socketRef.current.on('connect', () => {
+        console.log('Socket connected in EditorPage');
+        // Join new room
+        socketService.joinRoom(roomId);
+        // Join room after confirming connection
+        socketRef.current.emit(ACTIONS.JOIN, {
+            roomId,
+            username: location.state?.username,
+        });
+    });
+
+      // socketRef.current.emit(ACTIONS.JOIN, {
+      //   roomId,
+      //   username: location.state?.username,
+      // });
+
       socketRef.current.on("connect_error", (err) => handleErrors(err));
       socketRef.current.on("connect_failed", (err) => handleErrors(err));
+
       function handleErrors(e) {
-        console.log("socket error", e);
-        toast.error("Socket connection failed, try again later.");
-        reactNavigator("/");
+          console.log("socket error", e);
+          toast.error("Socket connection failed, try again later.");
+          socketService.disconnect(); // Disconnect on error
+          reactNavigator("/");
       }
-      socketRef.current.emit(ACTIONS.JOIN, {
-        roomId,
-        username: location.state?.username,
-      });
 
       // Listening for joined event
       socketRef.current.on(
@@ -48,12 +79,14 @@ const EditorPage = () => {
           setClients(clients);
           setOnlineUsersCount(clients.length);
         }
-      );      // Listening for user changes
+      );    
     
 
       // Listening for disconnected
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room.`);
+          // Leave current room before navigating
+          socketService.leaveRoom();
         setClients((prev) => {
           return prev.filter((client) => client.socketId !== socketId);
         });
@@ -74,6 +107,8 @@ const EditorPage = () => {
       // Handle navigation to the next chat room
       socketRef.current.on(ACTIONS.NAVIGATE_CHAT, ({ roomId }) => {
         toast.success("Navigating to the next chat...");
+         // Leave current room before navigating
+         socketService.leaveRoom();
         reactNavigator(`/chat/${roomId}`, {
           state: {
             username: location.state?.username,
@@ -83,15 +118,31 @@ const EditorPage = () => {
       });
     };
     init();
+
+    //Cleanup function
     return () => {
-      socketRef.current.off(ACTIONS.JOINED);
-      socketRef.current.off(ACTIONS.DISCONNECTED);
-      //socketRef.current.off(ACTIONS.NAVIGATE_CHAT);
-      socketRef.current.disconnect();
+      socketService.leaveRoom(); // Leave room when component unmounts
+      if (socketRef.current) {
+        socketRef.current.off(ACTIONS.JOINED);
+        socketRef.current.off(ACTIONS.DISCONNECTED);
+        socketRef.current.off(ACTIONS.NAVIGATE_CHAT);
+        socketRef.current.off('connect');
+        socketRef.current.off('connect_error');
+        socketRef.current.off('connect_failed');
+        // // Only disconnect if navigating away from chat completely
+        // if (!location.state?.socketInstance) {
+        //     socketRef.current.disconnect();
+        // }
+    }
+      // socketRef.current.off(ACTIONS.JOINED);
+      // socketRef.current.off(ACTIONS.DISCONNECTED);
+      // //socketRef.current.off(ACTIONS.NAVIGATE_CHAT);
+      // socketRef.current.disconnect();
     };
-  }, []);
+  }, [location.state, roomId,reactNavigator]);
 
   function leaveRoom() {
+    socketService.disconnect();
     reactNavigator("/");
   }
   // function nextChat() {
@@ -108,11 +159,26 @@ const EditorPage = () => {
     const { username, interests } = location.state;
     console.log(`Searching for the username:${username} with the interests:${interests}`);
     console.log(socketRef.current);
-    
-    if (socketRef.current) {
+
+    if (socketRef.current?.connected) {
+       // Leave current room before searching for next
+      socketService.leaveRoom();
       socketRef.current.emit(ACTIONS.NEXT_CHAT, { username, interests });
       toast("Searching for the next chat...");
-    }
+  } else {
+      toast.error("Socket connection lost. Trying to reconnect...");
+      socketRef.current = socketService.connect();
+      // Wait for reconnection before trying to emit
+      socketRef.current.once('connect', () => {
+          socketRef.current.emit(ACTIONS.NEXT_CHAT, { username, interests });
+          toast("Searching for the next chat...");
+      });
+  }
+    
+    // if (socketRef.current) {
+    //   socketRef.current.emit(ACTIONS.NEXT_CHAT, { username, interests });
+    //   toast("Searching for the next chat...");
+    // }
   }
   if (!location.state) {
     return <Navigate to="/" />;

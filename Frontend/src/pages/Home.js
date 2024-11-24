@@ -3,7 +3,9 @@ import { v4 as uuidV4 } from "uuid";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Stars from "../components/Stars/Stars";
-import { io } from "socket.io-client";
+//import { io ,initSocket} from "socket.io-client";
+//import { initSocket } from '../socket';
+import { socketService } from "../services/socketService";
 import ACTIONS from "../Actions";
 import rug from "random-username-generator";
 
@@ -14,14 +16,21 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [interest, setInterest] = useState("");
   const [loading, setLoading] = useState(false);
-  const [socket, setSocket] = useState(null);
+  //const [socket, setSocket] = useState(null);
   const [interests,setInterests]=useState([]);
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_BACKEND_URL);
-    setSocket(socket);
+    const socket = socketService.connect();
+    //setSocket(socket);
+    // const socket = io(process.env.REACT_APP_BACKEND_URL);
+    // setSocket(socket);
 
-    socket.on(ACTIONS.NAVIGATE_CHAT, ({ roomId }) => {
+    socket.on('connect', () => {
+      console.log('Socket connected from Home');
+  });
+
+
+  socket.on(ACTIONS.NAVIGATE_CHAT, ({ roomId }) => {
       setLoading(false);
       navigate(`/chat/${roomId}`, {
         state: {
@@ -32,8 +41,11 @@ export default function Home() {
     });
 
     return () => {
-      socket.off("navigate-to-chat");
-      socket.disconnect();
+      // socket.off("navigate-to-chat");
+      // socket.disconnect();
+        // Don't disconnect here, just remove listeners
+        socket.off(ACTIONS.NAVIGATE_CHAT);
+        socket.off('connect');
     };
   }, [navigate, username,interests]);
 
@@ -67,6 +79,7 @@ export default function Home() {
       return;
     }
     setLoading(true);
+    const socket = socketService.getSocket();
     const formattedInterests = interest.split(",").map((int) => int.trim().toLowerCase());
     socket.emit(ACTIONS.MATCH_USERS, { username, interests: formattedInterests });
   };
